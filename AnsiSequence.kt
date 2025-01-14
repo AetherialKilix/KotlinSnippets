@@ -33,9 +33,9 @@ class AnsiSequence private constructor(
     fun copy(): AnsiSequence = AnsiSequence(StringBuilder(builder.toString()))
 
     /** appends the supplied text to the sequence as is */
-    fun append(string: String) { builder.append(string) }
+    fun append(string: CharSequence) { builder.append(string) }
     /** appends the supplied text to the sequence, replacing [ESC] with '\u241b' */
-    fun appendEscaped(string: String) { builder.append(string.replace(ESC, "\u241b")) }
+    fun appendEscaped(string: CharSequence) { builder.append(string.toString().replace(ESC, "\u241b")) }
 
     // cursor movement \\
     /** Moves the cursor n (default 1) cells upward. If the cursor is already at the edge of the screen, this has no effect. */
