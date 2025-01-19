@@ -18,10 +18,11 @@ interface Emitter<T> {
     operator fun plusAssign(consumer: T.() -> Unit)
     @JvmName("unregister")
     operator fun minusAssign(consumer: Consumer<T>)
-    @JvmName("unregisterKt")
-    operator fun minusAssign(consumer: T.() -> Unit)
     @JvmName("emit")
     operator fun invoke(value: T)
+    @JvmName("registerKt2")
+    operator fun invoke(consumer: Consumer<T>) = plusAssign(consumer)
+
 }
 open class SimpleEmitter<T> : Emitter<T> {
     private val listeners: MutableList<Consumer<T>> = LinkedList()
@@ -32,8 +33,6 @@ open class SimpleEmitter<T> : Emitter<T> {
     override operator fun plusAssign(consumer: T.() -> Unit) { listeners.add(consumer) }
     @JvmName("unregister")
     override operator fun minusAssign(consumer: Consumer<T>) { listeners.remove(consumer) }
-    @JvmName("unregisterKt")
-    override operator fun minusAssign(consumer: T.() -> Unit) { listeners.remove(consumer) }
     @JvmName("emit")
     override operator fun invoke(value: T) { listeners.forEach { it.accept(value) } }
 }
