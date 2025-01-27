@@ -45,7 +45,7 @@ class GraphicsRendition {
     operator fun <T> get(attribute: Attribute<T>): T? {
         var result: T? = null
         for ((instruction, value) in instructions) {
-            if (instruction == attribute) result = value as? T
+            if (instruction.attribute == attribute) result = value as? T
             else if (instruction == Instruction.RESET) result = null
         }
         return result
